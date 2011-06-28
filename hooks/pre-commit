@@ -1,0 +1,5 @@
+#!/bin/sh
+REPOS="$1"
+TXN="$2"
+/var/svn-repos/generalHooks/checkCommentRespectsFormat.sh "$REPOS" "$TXN" >&2 || exit 1
+/usr/bin/scripts/phpcs-svn-pre-commit --standard=Zend "$REPOS" -t "$TXN" >&2 || exit 1
