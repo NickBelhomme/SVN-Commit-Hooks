@@ -7,15 +7,10 @@ $txn = $argv[2];
 exec('svnlook info ' . $repos . ' -t ' . $txn, $info);
 $author = $info[0];
 $time = $info[1];
-$changeSize = $info[2];
-$message = '';
-$infoCount = count($info);
-for ( $i=3; $i<$infoCount; ++$i ) {
-    $message .= $info[$i];
-}
-
-$pattern = '/^(\[BUGFIX\]|\[FEATURE\]|\[TASK\])+ issue #\d+/';
-
+$change_size = $info[2];
+$message = array_slice($info, 3);
+$message = implode("\n", $message);
+$pattern = '/^(\[BUGFIX\]|\[REFACTOR\]|\[FEATURE\]|\[TASK\]|\[CONF\])(\[\!{3}\])?.{10,}([^\n]+\n+)*((issue|resolves): #\d+\n)?build: #\d+/';
 if (!preg_match($pattern, $message)) {
     fwrite(
         STDERR,
@@ -25,9 +20,10 @@ if (!preg_match($pattern, $message)) {
         .PHP_EOL
         .$pattern
         .PHP_EOL
-        .'original message as follows:'
+        .'Rejected Message:'
         .PHP_EOL
         .$message
     );
     exit(1);
 }
+exit(0);

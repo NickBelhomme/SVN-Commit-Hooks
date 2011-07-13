@@ -34,8 +34,6 @@ if ($error) {
         STDERR, 
         'Your commit has been blocked because of invalid PHP'
         .PHP_EOL
-        .'Please write a log message describing the purpose of your changes and then try committing again.'
-        .PHP_EOL
         .$errorMessage
     );
     exit(1);

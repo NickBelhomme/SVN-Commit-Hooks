@@ -7,11 +7,8 @@ exec('svnlook info ' . $repos . ' -t ' . $txn, $info);
 $author = $info[0];
 $time = $info[1];
 $changeSize = $info[2];
-$message = '';
-$infoCount = count($info);
-for ( $i=3; $i<$infoCount; ++$i ) {
-    $message .= $info[$i];
-}
+$message = array_slice($info, 3);
+$message = implode("\n", $message);
 
 // Check message has at least a number of Chars ...
 if ( strlen($message) < 10 ) {
